@@ -1,5 +1,6 @@
 from modules import *
 import sys  
+import matplotlib.pyplot as plt
 reload(sys)  
 sys.setdefaultencoding('utf8')
 
@@ -85,3 +86,19 @@ def main_get_write_sim_art(path,all_artists):
         #if a!='':
         sim_art=get_all_sim_artists(artist)
         write_to_csv(artist,sim_art,path)
+
+def compute_all_sim_score(art_sim_dict,user_top_art_dic):
+    #compute sim score for all users
+    asdict=defaultdict(list,art_sim_dict)
+    all_user_scores=[]
+    for k,v in user_top_art_dic.iteritems():
+        artists=v
+        this_score=compute_sim_score(artists,asdict)
+        all_user_scores.append(this_score)
+    return all_user_scores
+    
+def plot_sim(all_user_scores):
+    plt.plot(sorted(all_user_scores))
+    plt.show()
+    plt.hist(sorted(all_user_scores),bins=20)
+        

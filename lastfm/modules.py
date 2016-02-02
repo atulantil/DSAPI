@@ -10,7 +10,8 @@ def read_csv_dict(path):
 
     dic=defaultdict(list)
     for row in csv_file_object:
-        dic[row[0]]=row[1:]
+        if len(row)>1:
+            dic[row[0]]=row[1:]
     return dic
 
 
@@ -141,3 +142,17 @@ def add_to_artist(seen,data):
     seen.update(data)                        # add the new values to the set
     #print(seen)
     return seen
+    
+def compute_sim_score(artists,art_sim_dic_read):
+    """give a list of 50 top artists of a user, compute the total similarity score"""
+    score=0
+    for art in artists:
+        #if art_sim_dic_read != []:
+        sim_artists=art_sim_dic_read[art]
+        lar=artists[:]
+        for arti in lar:
+            if arti in sim_artists and arti!=art:
+                score+=1
+                lar.remove(arti)
+                #print artists
+    return score
